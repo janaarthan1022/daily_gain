@@ -218,7 +218,11 @@ const person = {
     },
     vehicles:['3105', '6329', '1983'],
     consoleLogPrinter : () => {
-        console.log("Console log print test " + person.vehicles[0])
+        person.vehicles.map (
+            (vehicle) => {
+                console.log(vehicle);
+            }
+        );
     }
 }
 
