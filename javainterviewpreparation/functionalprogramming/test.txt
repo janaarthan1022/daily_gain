@@ -1,0 +1,28 @@
+package javaInterviewPreparation2024.functionalprogramming;
+
+import java.util.List;
+import java.util.function.Consumer;
+
+public class ConsumerExample2 {
+
+	public static void main(String[] args) {
+		List<Instructor> instructors = Instructors.getAll();
+		//Looping through all instructors and listing the values
+		Consumer<Instructor> cons1 = i -> System.out.println(i);
+		instructors.forEach(cons1);
+		System.out.println("=======================");
+		//Looping through all the instructors and print only their names
+		Consumer<Instructor> cons2 = j -> {
+			System.out.println(j.getName());
+		};
+		instructors.forEach(cons2);
+		System.out.println("===============");
+		//Looping through all the instructors and print out their names and courses.
+		Consumer<Instructor> cons3 = k -> {
+			System.out.println(k.getCourses());
+		};
+		instructors.forEach(cons2.andThen(cons3));
+
+	}
+
+}
