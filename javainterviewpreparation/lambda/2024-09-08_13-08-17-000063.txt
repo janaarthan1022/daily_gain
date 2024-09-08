@@ -1,0 +1,166 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/lambdacalculator/ArithmeticCalculator.java
+package javaInterviewPreparation2024.lambdacalculator;
+
+import java.util.Scanner;
+
+public class ArithmeticCalculator {
+
+	
+	public static void main(String[] args) {
+		System.out.println("Enter two numbers...");
+		Scanner sc = new Scanner(System.in);
+		int a = sc.nextInt();
+		int b = sc.nextInt();
+		System.out.println("Select your operation...");
+		System.out.println("add/sub/prod/div/mod");
+		String operation = sc.next();
+		
+		ArithmeticCalculatorInterface arithmeticCalculatorInterface = null;
+		if(operation.equalsIgnoreCase("add")) {
+			arithmeticCalculatorInterface = (e,f) -> e+f;
+		} else if(operation.equalsIgnoreCase("sub")) {
+			arithmeticCalculatorInterface = (e,f) -> e-f;
+		} else if(operation.equalsIgnoreCase("prod")) {
+			arithmeticCalculatorInterface = (e,f) -> e*f;
+		} else if(operation.equalsIgnoreCase("div")) {
+			arithmeticCalculatorInterface = (e,f) -> e/f;
+		} else if (operation.equalsIgnoreCase("mod")) {
+			arithmeticCalculatorInterface = (e,f) -> e%f;
+		}
+		System.out.println("Operation output = " + arithmeticCalculatorInterface.operation(a, b));
+		sc.close();
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/lambdacalculator/ArithmeticCalculatorInterface.java
+package javaInterviewPreparation2024.lambdacalculator;
+
+@FunctionalInterface
+public interface ArithmeticCalculatorInterface {
+
+	public int operation(int a, int b);
+	
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/lambdacallable/CallableExample.java
+package javaInterviewPreparation2024.lambdacallable;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.stream.IntStream;
+
+public class CallableExample {
+
+	public static int[] array = IntStream.rangeClosed(0, 5000).toArray();
+	public static int total = IntStream.rangeClosed(0, 5000).sum();
+
+	public static void main(String[] args) throws Exception {
+		Callable<Integer> callable1 = () -> {
+			int sum = 0;
+			for (int i = 0; i < array.length / 2; i++) {
+				sum += array[i];
+			}
+			return sum;
+		};
+		Callable<Integer> callable2 = () -> {
+			int sum = 0;
+			for (int i = array.length / 2; i < array.length; i++) {
+				sum += array[i];
+			}
+			return sum;
+		};
+		ExecutorService ex = Executors.newFixedThreadPool(2);
+		List<Callable<Integer>> taskList = Arrays.asList(callable1, callable2);
+		List<Future<Integer>> results = ex.invokeAll(taskList);
+		int k = 0; 
+		int sum = 0;
+		for(Future<Integer> result : results) {
+			sum  += result.get();
+			System.out.println("Sum of callable " + ++k + " is : " + result.get());
+		}
+		System.out.println("Sum from the callable = " + sum);
+		System.out.println("Sum from the Intstream = " + total);
+		ex.shutdown();
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/lambdathread/LambdaThreadExample.java
+package javaInterviewPreparation2024.lambdathread;
+
+public class LambdaThreadExample {
+
+	public static void main(String[] args) {
+
+		for (int i = 0; i < 5; i++) {
+			new Thread(() -> {
+				for (int j = 0; j < 10; j++) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					System.out.println(Thread.currentThread().getName() + " " + j);
+				}
+			}).start();
+		}
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/lambda/HelloworlInterface.java
+package javaInterviewPreparation2024.lambda;
+
+public interface HelloworlInterface {
+
+	public String sayHelloworld();
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/lambda/HelloworlTraditional.java
+package javaInterviewPreparation2024.lambda;
+
+public class HelloworlTraditional implements HelloworlInterface{
+
+	public static void main(String[] args) {
+		HelloworlInterface helloworldinterface = new HelloworlTraditional();
+		String output = helloworldinterface.sayHelloworld();
+		System.out.println(output);
+	}
+
+	@Override
+	public String sayHelloworld() {
+		return "Hello world interface traditional";
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/lambda/HelloworldLambda.java
+package javaInterviewPreparation2024.lambda;
+
+public class HelloworldLambda {
+
+	private static HelloworlInterface helloworldinterface = () -> "Hello world lambda";
+
+	public static void main(String[] args) {
+
+		String output = helloworldinterface.sayHelloworld();
+		System.out.println(output);
+
+	}
+
+}
+
+=========================================================
