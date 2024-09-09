@@ -1,0 +1,131 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/springboot-kafka-consumer/pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.1</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.janaa.microservices</groupId>
+	<artifactId>springboot-kafka-consumer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>springboot-kafka-consumer</name>
+	<description>Demo project for Spring Boot</description>
+	<url />
+	<licenses>
+		<license />
+	</licenses>
+	<developers>
+		<developer />
+	</developers>
+	<scm>
+		<connection />
+		<developerConnection />
+		<tag />
+		<url />
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+		<spring-cloud.version>2023.0.2</spring-cloud.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/springboot-kafka-consumer/src/test/java/com/janaa/microservices/limits_service/LimitsServiceApplicationTests.java
+package com.janaa.microservices.limits_service;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class LimitsServiceApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/springboot-kafka-consumer/src/main/resources/templates/curl_requests.txt
+curl -XPOST http://localhost:1122/kafka/publish-post -H "Content-Type: application/json" 
+-d '{"name":"Janaarthan Manohar", "dept":"Marketing", "salary":22222}'
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/springboot-kafka-consumer/src/main/resources/application.properties
+spring.application.name=springboot-kafka-consumer
+
+server.port=1133
+spring.kafka.bootstrap-servers=localhost:9092
+spring.kafka.consumer.group-id=test01
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/springboot-kafka-consumer/src/main/java/com/janaa/microservices/springboot_kafka/SpringbootKafkaApplication.java
+package com.janaa.microservices.springboot_kafka;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringbootKafkaApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringbootKafkaApplication.class, args);
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/springboot-kafka-consumer/src/main/java/com/janaa/microservices/springboot_kafka/KafkaConsumer.java
+package com.janaa.microservices.springboot_kafka;
+
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class KafkaConsumer {
+
+	@KafkaListener(topics = "test", groupId = "test01")
+	public void consumeMessage(String message) {
+		System.out.println("Received message: " + message);
+	}
+}
+=========================================================
