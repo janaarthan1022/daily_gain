@@ -1,0 +1,9 @@
+Content negotiation is getting the response in different formats, example xml.
+
+  Use this dependency:
+<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+
+  In the postman or Talend API tester, use Accept: application/xml as header and hit get request. We will get the response in xml
