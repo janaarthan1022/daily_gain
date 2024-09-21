@@ -1,0 +1,192 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/restful-web-services-brokers/pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.4</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.shift2024</groupId>
+	<artifactId>restful-web-services-brokers</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>restful-web-services-brokers</name>
+	<description>Demo project for Spring Boot</description>
+	<url />
+	<licenses>
+		<license />
+	</licenses>
+	<developers>
+		<developer />
+	</developers>
+	<scm>
+		<connection />
+		<developerConnection />
+		<tag />
+		<url />
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/restful-web-services-brokers/src/test/java/com/shift2024/restful_web_services/RestfulWebServicesApplicationTests.java
+package com.shift2024.restful_web_services;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class RestfulWebServicesApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/restful-web-services-brokers/src/main/resources/application.properties
+spring.application.name=restful-web-services
+server.port=1122
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/restful-web-services-brokers/src/main/java/com/shift2024/restful_web_services/BrokerResource.java
+package com.shift2024.restful_web_services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class BrokerResource {
+	
+	@Autowired
+	private BrokerDaoService service;
+	
+	@GetMapping("/brokers")
+	public List<BrokerDetails> listAllBrokes() {
+		return service.listAllBrokers();
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/restful-web-services-brokers/src/main/java/com/shift2024/restful_web_services/BrokerDetails.java
+package com.shift2024.restful_web_services;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class BrokerDetails {
+
+	private String id;
+	private String url;
+	private String env;
+	private String description;
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/restful-web-services-brokers/src/main/java/com/shift2024/restful_web_services/RestfulWebServicesApplication.java
+package com.shift2024.restful_web_services;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class RestfulWebServicesApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(RestfulWebServicesApplication.class, args);
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/restful-web-services-brokers/src/main/java/com/shift2024/restful_web_services/BrokerDaoService.java
+package com.shift2024.restful_web_services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class BrokerDaoService {
+
+	public static List<BrokerDetails> brokerDetails = new ArrayList<>();
+	
+	static {
+		brokerDetails.add(new BrokerDetails("eusb", "mtlsaws.sb.aws.com:9092", "sb", "EU Sandbox mtls broker url"));
+		brokerDetails.add(new BrokerDetails("eudev", "mtlsaws.dev.aws.com:9092", "dev", "EU Dev mtls broker url"));
+		brokerDetails.add(new BrokerDetails("euprod", "mtlsaws.prod.aws.com:9092", "prod", "EU Prod mtls broker url"));
+		brokerDetails.add(new BrokerDetails("cnsb", "mtlsaws.sb.aws.com.cn:9092", "sb", "CN Sandbox mtls broker url"));
+		brokerDetails.add(new BrokerDetails("cndev", "mtlsaws.dev.aws.com.cn:9092", "dev", "CN Dev mtls broker url"));
+		brokerDetails.add(new BrokerDetails("cnprod", "mtlsaws.prod.aws.com.cn:9092", "prod", "CN Prod mtls broker url"));	
+		brokerDetails.add(new BrokerDetails("cnpre", "mtlsaws.preprod.aws.com.cn:9092", "preprod", "CN Preprod mtls broker url"));
+		
+		brokerDetails.add(new BrokerDetails("eusb", "oauth.sb.aws.com:9092", "sb", "EU Sandbox mtls broker url"));
+		brokerDetails.add(new BrokerDetails("eudev", "oauth.dev.aws.com:9092", "dev", "EU Dev mtls broker url"));
+		brokerDetails.add(new BrokerDetails("euprod", "oauth.prod.aws.com:9092", "prod", "EU Prod mtls broker url"));
+		brokerDetails.add(new BrokerDetails("cnsb", "oauth.sb.aws.com.cn:9092", "sb", "CN Sandbox mtls broker url"));
+		brokerDetails.add(new BrokerDetails("cndev", "oauth.dev.aws.com.cn:9092", "dev", "CN Dev mtls broker url"));
+		brokerDetails.add(new BrokerDetails("cnprod", "oauth.prod.aws.com.cn:9092", "prod", "CN Prod mtls broker url"));	
+		brokerDetails.add(new BrokerDetails("cnpre", "oauth.preprod.aws.com.cn:9092", "preprod", "CN Preprod mtls broker url"));
+	}
+	
+	public List<BrokerDetails> listAllBrokers() {
+		return brokerDetails;
+	}
+}
+
+=========================================================
