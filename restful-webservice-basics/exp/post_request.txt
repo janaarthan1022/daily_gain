@@ -1,0 +1,10 @@
+@PostMapping("/brokers")
+	public ResponseEntity<BrokerDetail> addBroker(@RequestBody BrokerDetail brokerDetail) {
+		BrokerDetail savedBrokerDetail = service.saveBroker(brokerDetail);
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(savedBrokerDetail.getId()).toUri();
+		return ResponseEntity.created(location).build();
+		
+	}
