@@ -1,0 +1,202 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/student-details/pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.5</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.janaa.microservices</groupId>
+	<artifactId>student-details</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>student-details</name>
+	<description>Demo project for Spring Boot</description>
+	<url />
+	<licenses>
+		<license />
+	</licenses>
+	<developers>
+		<developer />
+	</developers>
+	<scm>
+		<connection />
+		<developerConnection />
+		<tag />
+		<url />
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/student-details/src/test/java/com/janaa/microservices/limits_service/LimitsServiceApplicationTests.java
+package com.janaa.microservices.limits_service;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class LimitsServiceApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/student-details/src/main/resources/data.sql
+insert into student_details (rollno, name, mark)
+values(1, 'aaa', 70);
+insert into student_details (rollno, name, mark)
+values(2, 'bbb', 80);
+insert into student_details (rollno, name, mark)
+values(3, 'ccc', 90);
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/student-details/src/main/resources/application.properties
+spring.application.name=student-details
+server.port=8000
+
+
+spring.jpa.show-sql=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.h2.console.enabled=true
+spring.jpa.defer-datasource-initialization=true
+
+spring.config.import=optional:configserver:http://localhost:8888
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/student-details/src/main/java/com/janaa/microservices/student_details/StudentController.java
+package com.janaa.microservices.student_details;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class StudentController {
+
+	@Autowired
+	private StudentRepo repo;
+	
+	@GetMapping("/student-details/{rollno}")
+	public StudentDetails getStudentDetails(@PathVariable int rollno) {
+		return repo.findByRollno(rollno);
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/student-details/src/main/java/com/janaa/microservices/student_details/StudentRepo.java
+package com.janaa.microservices.student_details;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StudentRepo extends JpaRepository<StudentDetails, Integer>{
+
+	public StudentDetails findByRollno(int rollno);
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/student-details/src/main/java/com/janaa/microservices/student_details/StudentDetails.java
+package com.janaa.microservices.student_details;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class StudentDetails {
+
+	@Id
+	private int rollno;
+	private String name;
+	private int mark;
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/student-details/src/main/java/com/janaa/microservices/student_details/StudentDetailsServiceApplication.java
+package com.janaa.microservices.student_details;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class StudentDetailsServiceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(StudentDetailsServiceApplication.class, args);
+	}
+
+}
+
+=========================================================
