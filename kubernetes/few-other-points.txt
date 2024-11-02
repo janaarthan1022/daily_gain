@@ -1,0 +1,3 @@
+kubeproxy is meant for pod to pod communication.
+kubeproxy exposes the application in the node to the end user.
+kubelet is an agent that gets requests from master node and runs the pods.
