@@ -1,0 +1,26 @@
+package interviewPreparations.consumer;
+
+import java.util.function.Consumer;
+
+public class ConsumerExample {
+
+	public static void main(String[] args) {
+		Consumer<String> cons = (s) -> System.out.println(s.toUpperCase());
+		cons.accept("Hello world");
+
+		Consumer<Integer> factorialConsumer = a -> {
+			int f = 1;
+			for (int i = 1; i <= a; i++) {
+				f *= i;
+			}
+			System.out.println("Factorial of " + a + " is " + f);
+		};
+		int inputNumber = 5;
+		factorialConsumer.accept(inputNumber);
+	}
+
+}
+
+Output:
+HELLO WORLD
+Factorial of 5 is 120
