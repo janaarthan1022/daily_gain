@@ -1,0 +1,239 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/currency-exchange-service/pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.5</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.janaa.microservices</groupId>
+	<artifactId>currency-exchange-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>currency-exchange-service</name>
+	<description>Demo project for Spring Boot</description>
+	<url />
+	<licenses>
+		<license />
+	</licenses>
+	<developers>
+		<developer />
+	</developers>
+	<scm>
+		<connection />
+		<developerConnection />
+		<tag />
+		<url />
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/currency-exchange-service/src/test/java/com/janaa/microservices/limits_service/LimitsServiceApplicationTests.java
+package com.janaa.microservices.limits_service;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class LimitsServiceApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/currency-exchange-service/src/main/resources/data.sql
+insert into currency_exchange (id, currency_from, currency_to, conversion_multiple, env, appnumber)
+values(1000, 'USD', 'INR', 80, '', '');
+insert into currency_exchange (id, currency_from, currency_to, conversion_multiple, env, appnumber)
+values(1001, 'EUR', 'INR', 89, '', '');
+insert into currency_exchange (id, currency_from, currency_to, conversion_multiple, env, appnumber)
+values(1002, 'AUD', 'INR', 65, '', '');
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/currency-exchange-service/src/main/resources/application.properties
+spring.application.name=currency-exchange
+server.port=8000
+app.number=1
+
+
+spring.jpa.show-sql=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.h2.console.enabled=true
+spring.jpa.defer-datasource-initialization=true
+
+spring.config.import=optional:configserver:http://localhost:8888
+
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/currency-exchange-service/src/main/java/com/janaa/microservices/limits_service/CurrencyExchangeServiceApplication.java
+package com.janaa.microservices.limits_service;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class CurrencyExchangeServiceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(CurrencyExchangeServiceApplication.class, args);
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/currency-exchange-service/src/main/java/com/janaa/microservices/limits_service/CurrencyExchange.java
+package com.janaa.microservices.limits_service;
+
+import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@RequiredArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@Entity
+public class CurrencyExchange {
+
+	@NonNull
+	@Id
+	private Long id;
+	@NonNull
+	@Column(name = "currency_from")
+	private String from;
+	@NonNull
+	@Column(name = "currency_to")
+	private String to;
+	@NonNull
+	private BigDecimal conversionMultiple;
+	private String env;
+	private String appnumber;
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/currency-exchange-service/src/main/java/com/janaa/microservices/limits_service/CurrencyExchangeController.java
+package com.janaa.microservices.limits_service;
+
+import java.math.BigDecimal;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class CurrencyExchangeController {
+	
+	@Autowired
+	private Environment environment;
+	
+	@Autowired
+	private CurrencyExchangeRepository repo;
+
+	@GetMapping("/currency-exchange/from/{from}/to/{to}")
+	public CurrencyExchange retrieveCurrencyExchange(@PathVariable String from, @PathVariable String to) {
+		//CurrencyExchange currencyExchange = new CurrencyExchange(1000L, from, to, BigDecimal.valueOf(80));
+		CurrencyExchange currencyExchange = repo.findByFromAndTo(from, to);
+		if(currencyExchange == null) {
+			throw new RuntimeException("Not found exception !!!!!!");
+		}
+		String port = environment.getProperty("local.server.port");
+		String appnumber = environment.getProperty("app.number");
+		currencyExchange.setEnv(port);
+		currencyExchange.setAppnumber(appnumber);
+		return currencyExchange;
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/shift2024/currency-exchange-service/src/main/java/com/janaa/microservices/limits_service/CurrencyExchangeRepository.java
+package com.janaa.microservices.limits_service;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CurrencyExchangeRepository extends JpaRepository<CurrencyExchange, Long>{
+
+	public CurrencyExchange findByFromAndTo(String from, String to);
+}
+
+=========================================================
