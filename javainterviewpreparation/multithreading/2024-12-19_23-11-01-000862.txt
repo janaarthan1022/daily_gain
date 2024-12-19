@@ -1,0 +1,73 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/multithreading/synchronizedExample/WorkerThread.java
+package javaInterviewPreparation2024.multithreading.synchronizedExample;
+
+public class WorkerThread extends Thread {
+
+	private Incrementer incrementer = new Incrementer();
+
+	public WorkerThread(Incrementer incrementer) {
+		this.incrementer = incrementer;
+	}
+
+	public void run() {
+		for (int i = 0; i < 5; i++) {
+			incrementer.increment();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/multithreading/synchronizedExample/MainClass.java
+package javaInterviewPreparation2024.multithreading.synchronizedExample;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		Incrementer incrementer = new Incrementer();
+		WorkerThread w1 = new WorkerThread(incrementer);
+		WorkerThread w2 = new WorkerThread(incrementer);
+		WorkerThread w3 = new WorkerThread(incrementer);
+		
+		w1.start();
+		w2.start();
+		w3.start();
+		
+		try {
+			w1.join();
+			w2.join();
+			w3.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Final incremented counter value = " + incrementer.getCounter());
+		
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/multithreading/synchronizedExample/Incrementer.java
+package javaInterviewPreparation2024.multithreading.synchronizedExample;
+
+public class Incrementer {
+
+	private int counter = 0;
+	
+	public synchronized void increment() {
+		counter++;
+		System.out.println(Thread.currentThread().getName() + " incremented counter value to " + counter);
+	}
+	
+	public int getCounter() {
+		return counter;
+	}
+}
+
+=========================================================
