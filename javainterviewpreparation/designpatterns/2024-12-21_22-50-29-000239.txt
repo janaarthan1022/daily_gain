@@ -1,0 +1,35 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/designpatterns/singleton/SingletonClass.java
+package javaInterviewPreparation2024.designpatterns.singleton;
+
+public class SingletonClass {
+	
+	private static SingletonClass singleton;
+	
+	private SingletonClass() {}
+	
+	public static SingletonClass getInstance() {
+		if(singleton == null) {
+			singleton = new SingletonClass();
+		}
+		return singleton;
+	}
+	
+	public void message( ) {
+		System.out.println("Message method of Singleton class");
+	}
+	
+	public static void main(String[] args) {
+		SingletonClass s1 = SingletonClass.getInstance();
+		SingletonClass s2 = SingletonClass.getInstance();
+		s1.message();
+		
+		if(s1 == s2) {
+			System.out.println("Both references are to the same instances");
+		} else {
+			System.out.println("Different instances exist. Singleton failed.");
+		}
+	} 
+
+}
+
+=========================================================
