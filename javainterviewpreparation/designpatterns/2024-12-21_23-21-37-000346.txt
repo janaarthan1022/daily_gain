@@ -1,0 +1,71 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/designpatterns/factory/Factory.java
+package javaInterviewPreparation2024.designpatterns.factory;
+
+public class Factory {
+
+
+	public Shape getShape(String shapeType) {
+		Shape shape = null;
+		if (shapeType.equalsIgnoreCase("circle"))
+			return new Circle();
+		else if (shapeType.equalsIgnoreCase("square"))
+			return new Square();
+		return shape;
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/designpatterns/factory/Circle.java
+package javaInterviewPreparation2024.designpatterns.factory;
+
+public class Circle implements Shape {
+
+	@Override
+	public void draw() {
+		System.out.println("This is Circle");
+		
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/designpatterns/factory/MainClass.java
+package javaInterviewPreparation2024.designpatterns.factory;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		Factory factory = new Factory();
+		Shape circle = factory.getShape("circle");
+		circle.draw();
+		Shape square = factory.getShape("square");
+		square.draw();
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/designpatterns/factory/Square.java
+package javaInterviewPreparation2024.designpatterns.factory;
+
+public class Square implements Shape {
+
+	@Override
+	public void draw() {
+		System.out.println("This is Square");
+		
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/designpatterns/factory/Shape.java
+package javaInterviewPreparation2024.designpatterns.factory;
+
+public interface Shape {
+
+	public void draw();
+}
+
+=========================================================
