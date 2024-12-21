@@ -1,0 +1,37 @@
+package javaInterviewPreparation2024.designpatterns.singleton;
+
+public class SingletonClassThreadsafe {
+
+	private static SingletonClassThreadsafe singleton;
+
+	private SingletonClassThreadsafe() {
+	}
+
+	public static SingletonClassThreadsafe getInstance() {
+		if (singleton == null) {
+			synchronized (SingletonClassThreadsafe.class) {
+				if (singleton == null) {
+					singleton = new SingletonClassThreadsafe();
+				}
+			}
+		}
+		return singleton;
+	}
+
+	public void message() {
+		System.out.println("Message method of Singleton class");
+	}
+
+	public static void main(String[] args) {
+		SingletonClassThreadsafe s1 = SingletonClassThreadsafe.getInstance();
+		SingletonClassThreadsafe s2 = SingletonClassThreadsafe.getInstance();
+		s1.message();
+
+		if (s1 == s2) {
+			System.out.println("Both references are to the same instances");
+		} else {
+			System.out.println("Different instances exist. Singleton failed.");
+		}
+	}
+
+}
