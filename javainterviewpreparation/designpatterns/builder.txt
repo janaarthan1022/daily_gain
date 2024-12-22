@@ -1,0 +1,67 @@
+package javaInterviewPreparation2024.designpatterns.builder;
+
+public class Car {
+
+	private String Engine;
+	private int wheels;
+	private String color;
+
+	public Car(CarBuilder builder) {
+		Engine = builder.engine;
+		this.wheels = builder.wheels;
+		this.color = builder.color;
+	}
+
+	public String getEngine() {
+		return Engine;
+	}
+
+	public int getWheels() {
+		return wheels;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	@Override
+	public String toString() {
+		return "Car [Engine=" + Engine + ", wheels=" + wheels + ", color=" + color + "]";
+	}
+
+	public static class CarBuilder {
+
+		private String engine;
+		private int wheels;
+		private String color;
+
+		public CarBuilder setEngine(String engine) {
+			this.engine = engine;
+			return this;
+		}
+
+		public CarBuilder setWheels(int wheels) {
+			this.wheels = wheels;
+			return this;
+		}
+
+		public CarBuilder setColor(String color) {
+			this.color = color;
+			return this;
+		}
+
+		public Car build() {
+			return new Car(this);
+		}
+	}
+	
+	public static void main(String[] args) {
+		Car car = new Car.CarBuilder().setColor("Black").setEngine("BS6").setWheels(4).build();
+		Car car2 = new Car.CarBuilder().setColor("while").setEngine("BS7").setWheels(4).build();
+		
+		System.out.println(car);
+		System.out.println(car2);
+
+	}
+
+}
