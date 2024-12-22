@@ -1,0 +1,263 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/carsService/pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.1</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.janaa.microservices</groupId>
+	<artifactId>carsService</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>carsService</name>
+	<description>Demo project for Spring Boot</description>
+	<url />
+	<licenses>
+		<license />
+	</licenses>
+	<developers>
+		<developer />
+	</developers>
+	<scm>
+		<connection />
+		<developerConnection />
+		<tag />
+		<url />
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+		<spring-cloud.version>2023.0.2</spring-cloud.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/carsService/src/test/java/com/janaa/microservices/limits_service/LimitsServiceApplicationTests.java
+package com.janaa.microservices.limits_service;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class LimitsServiceApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/carsService/src/main/resources/data.sql
+insert into car (id, brand, color, sales) values (1, 'tata', 'white', 200);
+insert into car (id, brand, color, sales) values (2, 'tata', 'red', 200);
+insert into car (id, brand, color, sales) values (3, 'mahindra', 'grey', 300);
+insert into car (id, brand, color, sales) values (4, 'mahindra', 'black', 100);
+insert into car (id, brand, color, sales) values (5, 'Wolkswagen', 'white', 400);
+
+
+
+
+
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/carsService/src/main/resources/application.properties
+spring.application.name=cars-service
+
+server.port=1122
+
+
+spring.jpa.show-sql=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.h2.console.path=/h2-console
+spring.h2.console.enabled=true
+spring.jpa.defer-datasource-initialization=true
+spring.data.jpa.repositories.bootstrap-mode=default
+spring.jpa.open-in-view=false
+
+
+#spring.jpa.properties.hibernate.generate_statistics=true
+#logging.level.org.hibernate.stat=debug
+logging.level.org.hibernate.type=trace
+spring.jpa.properties.hibernate.format_sql=true
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/carsService/src/main/java/com/janaa/microservices/carsService/CarController.java
+package com.janaa.microservices.carsService;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class CarController {
+
+	@Autowired
+	CarRepo repo;
+
+	@GetMapping("/cars")
+	public List<Car> getAllCars() {
+		return repo.findAll();
+	}
+	
+	@GetMapping("/cars/{color}")
+	public Car getCarByColor(@PathVariable String color) {
+		Car car = repo.findByColor(color);
+		if (car == null) {
+			throw new RuntimeException("Car with color " + color + " is not found !!!");
+		}
+		return car;
+	}
+
+	/*
+	@PostMapping("/car")
+	public ResponseEntity<Car> saveByRegNo(@RequestBody Car car) {
+		Car savedCar = repo.save(car);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(savedCar.getId()).toUri();
+		return ResponseEntity.created(location).build();
+	}*/
+	
+	@PostMapping("/cars")
+	public void saveByRegNo(@RequestBody Car car) {
+		repo.save(car);
+	}
+	
+	@GetMapping("/cars/by-color")
+	public List<CarDto> groupByColor() {
+		return repo.groupByColor();
+	}
+	
+	@GetMapping("/cars/by-brand")
+	public List<CarTotalSales> groupBySales() {
+		return repo.groupBySales();
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/carsService/src/main/java/com/janaa/microservices/carsService/CarTotalSales.java
+package com.janaa.microservices.carsService;
+
+public interface CarTotalSales {
+    public String getBrand();
+    public Integer getTotalSales();
+}
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/carsService/src/main/java/com/janaa/microservices/carsService/CarExplorerApplication.java
+package com.janaa.microservices.carsService;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class CarExplorerApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(CarExplorerApplication.class, args);
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/carsService/src/main/java/com/janaa/microservices/carsService/CarRepo.java
+package com.janaa.microservices.carsService;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+public interface CarRepo extends JpaRepository<Car, Integer> {
+
+	public Car findByColor(String color);
+
+	@Query(value = "SELECT c.color AS color, COUNT(c.color) AS totalCount " + "FROM car c " + "GROUP BY c.color "
+			+ "ORDER BY COUNT(c.color) DESC", nativeQuery = true)
+	public List<CarDto> groupByColor();
+	
+	@Query(value = "SELECT c.brand AS brand, SUM(c.sales) AS totalSales " + "FROM car c " + "GROUP BY c.brand "
+			, nativeQuery = true)
+	public List<CarTotalSales> groupBySales();
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/carsService/src/main/java/com/janaa/microservices/carsService/Car.java
+package com.janaa.microservices.carsService;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity
+public class Car {
+
+	@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	private String brand;
+	private String color;
+	private Integer sales;
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/carsService/src/main/java/com/janaa/microservices/carsService/CarDto.java
+package com.janaa.microservices.carsService;
+
+public interface CarDto {
+    String getColor();
+    Integer getTotalCount();
+}
+=========================================================
