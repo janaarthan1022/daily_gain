@@ -1,6 +1,7 @@
 package javaInterviewPreparation2024.streams;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +10,8 @@ public class SecondHighestSalary {
 	public static void main(String[] args) {
 		List<Employee> employees = Arrays.asList(new Employee(1, "Alice", 50000), new Employee(2, "Bob", 60000),
 				new Employee(3, "Charlie", 70000), new Employee(4, "David", 60000), new Employee(5, "Eve", 80000));
-		Optional<Double> secondRank = employees.stream().map(Employee::getSalary).distinct().skip(1).findFirst();
+		Optional<Double> secondRank = employees.stream().map(Employee::getSalary).distinct()
+				.sorted(Comparator.reverseOrder()).skip(1).findFirst();
 		System.out.println(secondRank);
 
 	}
