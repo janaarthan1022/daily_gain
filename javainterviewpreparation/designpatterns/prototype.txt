@@ -1,0 +1,92 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/designpatterns/prototype/PrototypePatternExample.java
+package javaInterviewPreparation2024.designpatterns.prototype;
+
+public class PrototypePatternExample {
+
+	public static void main(String[] args) {
+		Circle originalCircle = new Circle();
+		originalCircle.setId("c");
+		Circle clonedCircle = (Circle) originalCircle.clone();
+		System.out.println("Id of original circle = " + originalCircle.getId());
+		System.out.println("Id of cloned circle = " + clonedCircle.getId());
+		clonedCircle.draw();
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/designpatterns/prototype/Circle.java
+package javaInterviewPreparation2024.designpatterns.prototype;
+
+public class Circle extends Shape {
+
+	public Circle() {
+		setType("CIRCLE");
+	}
+
+	@Override
+	void draw() {
+		System.out.println("Drawing a cirlce...");
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/designpatterns/prototype/Rectangle.java
+package javaInterviewPreparation2024.designpatterns.prototype;
+
+public class Rectangle extends Shape {
+
+	public Rectangle() {
+		setType("RECTANGLE");
+	}
+
+	@Override
+	void draw() {
+		System.out.println("Drawing a rectangle...");
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/designpatterns/prototype/Shape.java
+package javaInterviewPreparation2024.designpatterns.prototype;
+
+public abstract class Shape implements Cloneable {
+
+	private String id;
+	private String type;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	abstract void draw();
+
+	public Object clone() {
+		Object clone = null;
+		try {
+			clone = super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return clone;
+	}
+}
+
+=========================================================
