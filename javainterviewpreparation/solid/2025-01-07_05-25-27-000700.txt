@@ -1,0 +1,62 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/lsp2/Sparrow.java
+package javaInterviewPreparation2024.solid.lsp2;
+
+public class Sparrow extends Bird implements Flyable{
+
+	@Override
+	public void fly() {
+		System.out.println("Sparrow can fly");
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/lsp2/Bird.java
+package javaInterviewPreparation2024.solid.lsp2;
+
+public class Bird {
+
+	public void eat() {
+		System.out.println("I am eating...");
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/lsp2/MainClass.java
+package javaInterviewPreparation2024.solid.lsp2;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		Bird sparrow = new Sparrow();
+		sparrow.eat();
+		
+		((Flyable) sparrow).fly();
+		
+		Bird penguin = new Penguin();
+		penguin.eat();
+		((Penguin) penguin).swim();
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/lsp2/Penguin.java
+package javaInterviewPreparation2024.solid.lsp2;
+
+public class Penguin extends Bird {
+
+	public void swim() {
+		System.out.println("Penguin can swim.");
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/lsp2/Flyable.java
+package javaInterviewPreparation2024.solid.lsp2;
+
+public interface Flyable {
+
+	public void fly();
+}
+
+=========================================================
