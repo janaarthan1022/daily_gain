@@ -1,0 +1,49 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/lsp/Sparrow.java
+package javaInterviewPreparation2024.solid.lsp;
+
+public class Sparrow extends Bird{
+
+	
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/lsp/Bird.java
+package javaInterviewPreparation2024.solid.lsp;
+
+public class Bird {
+
+	public void fly() {
+		System.out.println("I am flying...");
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/lsp/MainClass.java
+package javaInterviewPreparation2024.solid.lsp;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		Bird sparrow = new Sparrow();
+		sparrow.fly();
+		
+		Bird penguin = new Penguin();
+		penguin.fly();
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/lsp/Penguin.java
+package javaInterviewPreparation2024.solid.lsp;
+
+public class Penguin extends Bird{
+
+	@Override
+	public void fly() {
+		throw new UnsupportedOperationException("I wont be able to fly...");
+	}
+}
+
+=========================================================
