@@ -1,0 +1,147 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/srp/SalaryCalculator.java
+package javaInterviewPreparation2024.solid.srp;
+
+public class SalaryCalculator {
+
+	private Employee employee;
+
+	public SalaryCalculator(Employee employee) {
+		super();
+		this.employee = employee;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public double getSalary() {
+		return employee.getBasicSalary() * 1.2;
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/srp/EmployeeWithoutSrp.java
+package javaInterviewPreparation2024.solid.srp;
+
+public class EmployeeWithoutSrp {
+
+	private String name;
+	private double basicSalary;
+	private int age;
+
+	public EmployeeWithoutSrp(String name, double basicSalary, int age) {
+		super();
+		this.name = name;
+		this.basicSalary = basicSalary;
+		this.age = age;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getBasicSalary() {
+		return basicSalary;
+	}
+
+	public void setBasicSalary(double basicSalary) {
+		this.basicSalary = basicSalary;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public double getSalary() {
+		return basicSalary * 1.2;
+	}
+	
+	public void save() {
+		System.out.println("Saving " + name + " to the database...");
+		//Database save operations
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/srp/DatabaseOperation.java
+package javaInterviewPreparation2024.solid.srp;
+
+public class DatabaseOperation {
+
+	private Employee employee;
+
+	public DatabaseOperation(Employee employee) {
+		super();
+		this.employee = employee;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public void save() {
+		//save employee to the database
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/srp/Employee.java
+package javaInterviewPreparation2024.solid.srp;
+
+public class Employee {
+
+	private String name;
+	private double basicSalary;
+	private int age;
+
+	public Employee(String name, double basicSalary, int age) {
+		super();
+		this.name = name;
+		this.basicSalary = basicSalary;
+		this.age = age;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getBasicSalary() {
+		return basicSalary;
+	}
+
+	public void setBasicSalary(double basicSalary) {
+		this.basicSalary = basicSalary;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+}
+
+=========================================================
