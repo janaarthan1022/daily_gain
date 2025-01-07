@@ -1,0 +1,73 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/dip2/SMSNotification.java
+package javaInterviewPreparation2024.solid.dip2;
+
+public class SMSNotification implements Notifier {
+
+	@Override
+	public void sendNotification(String message) {
+		System.out.println("SMS Notification : " + message);
+		
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/dip2/NotificationService.java
+package javaInterviewPreparation2024.solid.dip2;
+
+public class NotificationService {
+
+	private Notifier notifier;
+	
+	public NotificationService(Notifier notifier) {
+		this.notifier = notifier;
+	}
+	
+	public void sendNotification(String message) {
+		notifier.sendNotification(message);
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/dip2/Notifier.java
+package javaInterviewPreparation2024.solid.dip2;
+
+public interface Notifier {
+
+	public void sendNotification(String message);
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/dip2/MainClass.java
+package javaInterviewPreparation2024.solid.dip2;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		Notifier emailNotification = new EmailNotification();
+		NotificationService notificationService = new NotificationService(emailNotification);
+		notificationService.sendNotification("Email notification...");
+		Notifier smsNotification = new SMSNotification();
+		notificationService = new NotificationService(smsNotification);
+		notificationService.sendNotification("SMS Notification...");
+		
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/dip2/EmailNotification.java
+package javaInterviewPreparation2024.solid.dip2;
+
+public class EmailNotification implements Notifier{
+
+	@Override
+	public void sendNotification(String message) {
+		System.out.println("Email notification : " + message);
+		
+	}
+
+}
+
+=========================================================
