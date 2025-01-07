@@ -1,0 +1,49 @@
+package javaInterviewPreparation2024.solid.isp;
+
+public class InterfaceSegregationPrinciple {
+
+	public static void main(String[] args) {
+		Workable contractor = new Contractor();
+		contractor.work();
+		
+		Workable manager = new ManagerISP();
+		manager.work();
+		((ManagerISP) manager).manage();
+
+	}
+
+}
+
+interface Workable {
+	void work();
+}
+
+interface Manageable {
+	void manage();
+}
+
+class Contractor implements Workable {
+
+	@Override
+	public void work() {
+		System.out.println("Contractor is working");
+		
+	}
+	
+}
+
+class ManagerISP implements Manageable, Workable {
+
+	@Override
+	public void work() {
+		System.out.println("Manager is working");
+		
+	}
+
+	@Override
+	public void manage() {
+		System.out.println("Manager is managing");
+		
+	}
+	
+}
