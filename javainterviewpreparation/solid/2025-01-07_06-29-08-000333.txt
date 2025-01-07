@@ -1,0 +1,41 @@
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/dip1/NotificationService.java
+package javaInterviewPreparation2024.solid.dip1;
+
+public class NotificationService extends EmailService {
+
+	private EmailService emailService;
+	public NotificationService() {
+		emailService = new EmailService();
+	}
+	
+	public void send(String message) {
+		emailService.send(message);
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/dip1/MainClass.java
+package javaInterviewPreparation2024.solid.dip1;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		EmailService notificationService = new NotificationService();
+		notificationService.send("Hello DIP");
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/nomad_path/upskill/eclipse_workspace/javaInterviewPreparation2024/src/javaInterviewPreparation2024/solid/dip1/EmailService.java
+package javaInterviewPreparation2024.solid.dip1;
+
+public class EmailService {
+
+	public void send(String message) {
+		System.out.println("Email sent" + " " + message);
+	}
+}
+
+=========================================================
