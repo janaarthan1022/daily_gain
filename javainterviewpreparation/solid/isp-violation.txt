@@ -1,0 +1,50 @@
+package javaInterviewPreparation2024.solid.isp;
+
+public class InterfaceSegregationPrincipleViolation {
+
+	public static void main(String[] args) {
+		Employee regular = new RegularEmployee();
+		regular.work();
+		Employee manager = new Manager();
+		manager.work();
+		manager.manage();
+		regular.manage();
+	}
+}
+
+interface Employee {
+	void work();
+	void manage();
+}
+
+class RegularEmployee implements Employee {
+
+	@Override
+	public void work() {
+		System.out.println("Regular employee is working...");
+		
+	}
+
+	@Override
+	public void manage() {
+		throw new UnsupportedOperationException("Regular employee will not manage");
+		
+	}
+	
+}
+
+class Manager implements Employee {
+
+	@Override
+	public void work() {
+		System.out.println("Manager is working");
+		
+	}
+
+	@Override
+	public void manage() {
+		System.out.println("Manager is managing");
+		
+	}
+	
+}
