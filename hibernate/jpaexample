@@ -1,0 +1,413 @@
+File Name :::::::::::/Users/janaarthanm/Documents/shift2024/hibernate/databasedemo/pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.1</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.janaa</groupId>
+	<artifactId>databasedemo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>databasedemo</name>
+	<description>Demo project for Spring Boot</description>
+	<url />
+	<licenses>
+		<license />
+	</licenses>
+	<developers>
+		<developer />
+	</developers>
+	<scm>
+		<connection />
+		<developerConnection />
+		<tag />
+		<url />
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/shift2024/hibernate/databasedemo/src/test/java/com/janaa/databasedemo/DatabasedemoApplicationTests.java
+package com.janaa.databasedemo;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class DatabasedemoApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/shift2024/hibernate/databasedemo/src/main/resources/data.sql
+create table person (id integer not null, name varchar(255) not null, location varchar(255), birthdate timestamp, primary key (id));
+insert into person (id, name, location, birthdate)
+values 
+(10001, 'Ranga', 'Chennai', '2000-10-01'),
+(10002,'Billa', 'Chennai', '1999-11-12'),
+(10003,'Basha', 'Mumbai', '1998-09-09');
+
+
+insert into person2 (id, person_name, location, birthdate)
+values 
+(10001, 'Ranga', 'Chennai', '2000-10-01'),
+(10002,'Billa', 'Chennai', '1999-11-12'),
+(10003,'Basha', 'Mumbai', '1998-09-09');
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/shift2024/hibernate/databasedemo/src/main/resources/application.properties
+spring.application.name=databasedemo
+
+server.port=8000
+
+
+spring.jpa.show-sql=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.h2.console.enabled=true
+spring.jpa.defer-datasource-initialization=true
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/shift2024/hibernate/databasedemo/src/main/java/com/janaa/databasedemo/DatabasedemoApplication.java
+package com.janaa.databasedemo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.janaa.databasedemo.dao.PersonJdbcDao;
+
+@SpringBootApplication
+public class DatabasedemoApplication /*implements CommandLineRunner */
+{
+
+	@Autowired
+	PersonJdbcDao dao;
+
+	private Logger logger = LoggerFactory.getLogger(DatabasedemoApplication.class);
+
+	public static void main(String[] args) {
+		SpringApplication.run(DatabasedemoApplication.class, args);
+	}
+
+	/*
+	@Override
+	public void run(String... args) throws Exception {
+		logger.info("All users = {}", dao.findAll());
+		logger.info("Person with id 10001 = {}", dao.findById(10001));
+	}*/
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/shift2024/hibernate/databasedemo/src/main/java/com/janaa/databasedemo/entity/Person2.java
+package com.janaa.databasedemo.entity;
+
+import java.util.Date;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Entity
+@Table(name="person2")
+@NamedQuery(name = "find_all_persons", query="select p from Person2 p")
+public class Person2 {
+
+	@Id
+	@GeneratedValue
+	private int id;
+	@Column(name="person_name")
+	private String name;
+	private String location;
+	private Date birthdate;
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/shift2024/hibernate/databasedemo/src/main/java/com/janaa/databasedemo/entity/Person.java
+package com.janaa.databasedemo.entity;
+
+import java.util.Date;
+
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class Person {
+
+	private int id;
+	private String name;
+	private String location;
+	private Date birthdate;
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/shift2024/hibernate/databasedemo/src/main/java/com/janaa/databasedemo/dao/PersonJpaRepo.java
+package com.janaa.databasedemo.dao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.janaa.databasedemo.entity.Person2;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+
+@Repository
+@Transactional
+public class PersonJpaRepo {
+
+	@PersistenceContext
+	EntityManager em;
+	
+	public Person2 findById(int id) {
+		return em.find(Person2.class, id);
+	}
+	
+	public Person2 update(Person2 person2) {
+		return em.merge(person2);
+	}
+	
+	public void delete(int id) {
+		Person2 person2 = findById(id);
+		em.remove(person2);
+	}
+	
+	public List<Person2> findAll() {
+		return em.createNamedQuery("find_all_persons", Person2.class).getResultList();
+	}
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/shift2024/hibernate/databasedemo/src/main/java/com/janaa/databasedemo/dao/PersonJdbcDao.java
+package com.janaa.databasedemo.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import com.janaa.databasedemo.entity.Person;
+
+@Repository
+public class PersonJdbcDao {
+
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+
+	// RowMapper to display id,name and location columns alone
+	class PersonLocationRowMapper implements RowMapper<Person> {
+
+		@Override
+		public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Person person = new Person();
+			person.setId(rs.getInt("id"));
+			person.setLocation(rs.getString("location"));
+			person.setName(rs.getString("name"));
+			return person;
+		}
+
+	}
+
+	public List<Person> findAll() {
+		return jdbcTemplate.query("select * from person", new BeanPropertyRowMapper(Person.class));
+	}
+
+	public List<Person> findAllLocations() {
+		return jdbcTemplate.query("select id,name,location from person", new PersonLocationRowMapper());
+	}
+
+	public Object findById(int id) {
+		return jdbcTemplate.queryForObject("select * from person where id=?", new Object[] { id },
+				new BeanPropertyRowMapper(Person.class));
+	}
+
+	public int deleteById(int id) {
+		return jdbcTemplate.update("delete from person where id=?", new Object[] { id });
+	}
+
+	public int insertRecord(Person person) {
+		return jdbcTemplate.update("insert into person values (?, ?, ?, ?)",
+				new Object[] { person.getId(), person.getName(), person.getLocation(), person.getBirthdate() });
+
+	}
+
+	public int updateRecord(String name, String location, int id) {
+		return jdbcTemplate.update("update person set name=?, location=? where id=?",
+				new Object[] { name, location, id });
+
+	}
+
+}
+
+=========================================================
+File Name :::::::::::/Users/janaarthanm/Documents/shift2024/hibernate/databasedemo/src/main/java/com/janaa/databasedemo/controller/PersonRestController.java
+package com.janaa.databasedemo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.janaa.databasedemo.dao.PersonJdbcDao;
+import com.janaa.databasedemo.dao.PersonJpaRepo;
+import com.janaa.databasedemo.entity.Person;
+import com.janaa.databasedemo.entity.Person2;
+
+@RestController
+public class PersonRestController {
+
+	@Autowired
+	private PersonJdbcDao dao;
+	
+	@Autowired
+	private PersonJpaRepo repo;
+
+	@GetMapping("/persons")
+	public List<Person> findAll() {
+		return dao.findAll();
+	}
+	
+	@GetMapping("/person-locations")
+	public List<Person> findAllLocations() {
+		return dao.findAllLocations();
+	}
+
+	@GetMapping("/persons/{id}")
+	public Person findById(@PathVariable int id) {
+		return (Person) dao.findById(id);
+	}
+
+	@DeleteMapping("/persons/{id}")
+	public String deleteById(@PathVariable int id) {
+		return dao.deleteById(id) + " rows got affected...";
+	}
+
+	@PostMapping("/persons")
+	public String insertRecord(@RequestBody Person person) {
+		return dao.insertRecord(person) + " records got inserted !!!!";
+	}
+	
+	@PutMapping("/persons/name/{name}/location/{location}/id/{id}")
+	public String updateRecord(@PathVariable String name, @PathVariable String location, @PathVariable int id) {
+		return dao.updateRecord(name, location, id) + " records updated !!!";
+	}
+	
+	///////////////////////////////////////////
+	@GetMapping("/persons2/{id}")
+	public Person2 findByIdPerson2(@PathVariable int id) {
+		return repo.findById(id);
+	}
+	
+	@PostMapping("/persons2")
+	public Person2 insertPerson2(@RequestBody Person2 person2) {
+		return repo.update(person2);
+	}
+	
+	@PutMapping("/persons2")
+	public Person2 updatePerson2(@RequestBody Person2 person2) {
+		return repo.update(person2);
+	}
+	
+	@DeleteMapping("/persons2/{id}")
+	public void deleteByIdPerson2(@PathVariable int id) {
+		repo.delete(id);
+	}
+	
+	//HQL
+	@GetMapping("/persons2")
+	public List<Person2> findAllPerson2() {
+		return repo.findAll();
+	}
+	
+	
+}
+
+=========================================================
