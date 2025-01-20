@@ -1,0 +1,46 @@
+package com.janaa.test.misc;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class SortMapBasedOnValue {
+
+	public static void main(String[] args) {
+		Map<String, Integer> unsortedMap = new HashMap<String, Integer>();
+		unsortedMap.put("Apple", 50);
+		unsortedMap.put("Banana", 20);
+		unsortedMap.put("Cherry", 30);
+		unsortedMap.put("Mango", 10);
+		unsortedMap.put("Orange", 40);
+
+		System.out.println("Unsorted Map: " + unsortedMap);
+		List<Entry<String, Integer>> linkedList = new LinkedList<>();
+		for(Entry<String, Integer> entry :unsortedMap.entrySet()) {
+			linkedList.add(entry);
+		}
+		Collections.sort(linkedList, new Comparator<Entry<String, Integer>>() {
+			@Override
+			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+				return o1.getValue().compareTo(o2.getValue());
+			}
+		});
+		Map<String, Integer> linkedHashMap = new LinkedHashMap<String, Integer>();
+		linkedList.forEach(n -> {
+			linkedHashMap.put(n.getKey(), n.getValue());
+		});
+		System.out.println("Sorted Map: " + linkedHashMap);
+
+	}
+
+}
+
+
+Output:
+Unsorted Map: {Apple=50, Cherry=30, Mango=10, Orange=40, Banana=20}
+Sorted Map: {Mango=10, Banana=20, Cherry=30, Orange=40, Apple=50}
