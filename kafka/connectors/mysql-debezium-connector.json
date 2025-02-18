@@ -1,0 +1,32 @@
+{
+  "name": "mysql-source-connector",
+  "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+  "tasks.max": "1",
+
+  "database.hostname": "your-mysql-host",
+  "database.port": "3306",
+  "database.user": "streaming",
+  "database.password": "streaming",
+  "database.server.id": "1001",
+  "database.server.name": "mysql_cdc",
+  "database.include.list": "your_database_name",
+  
+  "table.include.list": "your_database_name.your_table_name",
+  
+  "database.history.kafka.bootstrap.servers": "your-kafka-bootstrap:9092",
+  "database.history.kafka.topic": "mysql_cdc_history",
+
+  "include.schema.changes": "true",
+  "database.history.store.only.captured.tables.ddl": "true",
+  
+  "snapshot.mode": "initial",
+  "snapshot.include.collection.list": "your_database_name.your_table_name",
+  
+  "time.precision.mode": "connect",
+  "decimal.handling.mode": "double",
+  "provide.transaction.metadata": "true",
+  "schema.history.internal.kafka.bootstrap.servers": "your-kafka-bootstrap:9092",
+  "schema.history.internal.kafka.topic": "mysql_schema_history",
+
+  "heartbeat.interval.ms": "5000"
+}
