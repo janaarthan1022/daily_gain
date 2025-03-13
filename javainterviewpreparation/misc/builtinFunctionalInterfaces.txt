@@ -1,0 +1,45 @@
+package javaInterviewPreparation2024.java8;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
+public class BuiltInFunctionalInterfaces {
+
+	public static void main(String[] args) {
+		Consumer<String> consumer = (message) -> System.out.println(message);
+		System.out.println("Consumer example: ");
+		consumer.accept("Consumer");
+		System.out.println("=========================");
+		Supplier<String> supplier = () -> "Supplier output";
+		System.out.println("Supplier example :");
+		System.out.println(supplier.get());
+		System.out.println("=========================");
+		Function<String, String> function = (String message) -> message.toUpperCase();
+		System.out.println("Function example :");
+		String functionOutput = function.apply("Function input");
+		System.out.println(functionOutput);
+		System.out.println("=========================");
+		int predicateInput = 15;
+		Predicate<Integer> predicate = (n) -> n % 2 == 0;
+		System.out.println("Predicate example : ");
+		System.out.println("Predicate output for : " + predicateInput + " = " + predicate.test(predicateInput));
+
+	}
+
+}
+===================================
+Output:
+==================
+Consumer example: 
+Consumer
+=========================
+Supplier example :
+Supplier output
+=========================
+Function example :
+FUNCTION INPUT
+=========================
+Predicate example : 
+Predicate output for : 15 = false
