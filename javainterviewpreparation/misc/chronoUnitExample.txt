@@ -1,0 +1,28 @@
+package javaInterviewPreparation2024.java8;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+public class ChronoUnitsExample {
+
+	public static void main(String[] args) {
+		LocalDate today = LocalDate.of(2025, 3, 13);
+		LocalDate birthdate = LocalDate.of(1989, 10, 9);
+		
+		long years = ChronoUnit.YEARS.between(birthdate, today);
+		System.out.println("Age in years = " + years);
+		
+		long months = ChronoUnit.MONTHS.between(birthdate, today);
+		System.out.println("Age in months = " + months);
+		
+		long days = ChronoUnit.DAYS.between(birthdate, today);
+		System.out.println("Age in days = " + days);
+
+	}
+
+}
+==========================
+Output:
+Age in years = 35
+Age in months = 425
+Age in days = 12939
