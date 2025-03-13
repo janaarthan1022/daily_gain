@@ -1,0 +1,30 @@
+dpackage javaInterviewPreparation2024.java8;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class DateTimeFormatterExample {
+
+	public static void main(String[] args) {
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		System.out.println("Today's date in dd-MM-YYYY format = " + today.format(formatter));
+		
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		System.out.println("Current time in dd-MMM-YYYY HH:mm:ss format = " + now.format(timeFormatter));
+		
+		String customDate = "09-10-1989";
+		LocalDate customFormattedDate = LocalDate.parse(customDate, formatter);
+		System.out.println("Custom Formatted date = " + customFormattedDate);
+
+	}
+
+}
+
+================
+  Output:
+Today's date in dd-MM-YYYY format = 13-03-2025
+Current time in dd-MM-YYYY HH:mm:ss format = 13-Mar-2025 12:45:11
+Custom Formatted date = 1989-10-09
