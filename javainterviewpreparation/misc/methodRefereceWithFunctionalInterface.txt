@@ -1,0 +1,32 @@
+package javaInterviewPreparation2024.java8;
+
+public class FunctionalInterfaceExample {
+
+	public static void main(String[] args) {
+		OperationInterface operate = (a,b) -> a+b;
+		int sum = operate.operation(1, 2);
+		System.out.println("Sum = " + sum);
+		
+		StringFunctionalInterface sfi = (String message) -> System.out.println(message);
+		StringFunctionalInterface sfiobj = sfi::message;
+		sfiobj.message("Hello world !!!");
+
+	}
+
+}
+
+@FunctionalInterface
+interface OperationInterface {
+	public int operation(int a, int b);
+}
+
+@FunctionalInterface
+interface StringFunctionalInterface {
+	public void message(String message);
+}
+
+
+Output::
+====================
+Sum = 3
+Hello world !!!
