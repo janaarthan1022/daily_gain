@@ -1,0 +1,35 @@
+package javaInterviewPreparation2024.java8;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class MethodReferenceExample {
+
+	public static void staticMethod(String message) {
+		System.out.println("Static method reference : " + message);
+	}
+	
+	private void instanceMethod(String message) {
+		System.out.println("Instance method reference: " + message);
+	}
+	
+	public static void main(String[] args) {
+		List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+		names.forEach(MethodReferenceExample::staticMethod);
+		MethodReferenceExample mre = new MethodReferenceExample();
+		names.forEach(mre::instanceMethod);
+		
+
+	}
+
+}
+
+==============================================
+Output:
+
+Static method reference : Alice
+Static method reference : Bob
+Static method reference : Charlie
+Instance method reference: Alice
+Instance method reference: Bob
+Instance method reference: Charlie
