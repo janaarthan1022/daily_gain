@@ -1,0 +1,15 @@
+Best practices for performance optimization:
+
+Summary: Best Practices for Spark Performance
+=========================================
+Optimization Area	Key Techniques
+=================================
+Data Structure :	Use DataFrames/Datasets instead of RDDs
+Shuffling :	Use reduceByKey instead of groupByKey
+File Format : 	Use Parquet/ORC instead of CSV/JSON
+Caching :	Use persist(StorageLevel.MEMORY_AND_DISK)
+Parallelism :	Increase spark.sql.shuffle.partitions
+Joins :	Use Broadcast Joins for small tables
+Shuffle : Optimization	Enable Kryo Serialization
+Resource : Allocation	Use dynamic resource allocation
+Monitoring :	Analyze Spark UI & event logs
