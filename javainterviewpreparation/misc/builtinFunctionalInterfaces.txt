@@ -43,3 +43,10 @@ FUNCTION INPUT
 =========================
 Predicate example : 
 Predicate output for : 15 = false
+
+===========================================================
+Functional Interface	Input	Output	Purpose
+Predicate<T>	✅ Yes	✅ Boolean	Conditional check
+Consumer<T>	✅ Yes	❌ No	Performs an action
+Supplier<T>	❌ No	✅ Yes	Supplies a value
+Function<T, R>	✅ Yes	✅ Yes	Transforms data
