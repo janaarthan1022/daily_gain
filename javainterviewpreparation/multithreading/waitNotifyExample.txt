@@ -1,0 +1,82 @@
+package javaInterviewPreparation2024.multithreading.waitnotify;
+
+import java.util.LinkedList;
+
+public class WaitNotifyExample {
+
+	private LinkedList<Integer> list = new LinkedList<>();
+	private static final int CAPACITY = 5;
+
+	public static void main(String[] args) {
+		WaitNotifyExample obj = new WaitNotifyExample();
+		Runnable producer = () -> {
+			try {
+				for(int i = 0 ; i < 10 ; i++) {
+					Thread.sleep(500);
+					obj.produce(i);
+				}
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+ 		};
+ 		Runnable consumer = () -> {
+ 			try {
+				for(int i = 0 ; i < 10 ; i++) {
+					Thread.sleep(1000);
+					obj.consume();
+				}
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+ 		};
+ 		Thread t1 = new Thread(producer);
+ 		Thread t2 = new Thread(consumer);
+ 		t1.start();
+ 		t2.start();
+
+	}
+
+	public synchronized void produce(int value) throws InterruptedException {
+		while (list.size() == CAPACITY) {
+			System.out.println("Queue is full. Producer is waiting");
+			wait();
+		}
+		list.add(value);
+		System.out.println("Value " + value + " added to the list");
+		notify();
+	}
+
+	public synchronized void consume() throws InterruptedException {
+		while (list.size() == 0) {
+			System.out.println("Queue is empty. Consumer is waiting");
+			wait();
+		}
+		int value = list.removeFirst();
+		System.out.println("Consumed value = " + value);
+		notify();
+
+	}
+
+}
+==================
+Output:
+Value 0 added to the list
+Consumed value = 0
+Value 1 added to the list
+Value 2 added to the list
+Consumed value = 1
+Value 3 added to the list
+Value 4 added to the list
+Consumed value = 2
+Value 5 added to the list
+Value 6 added to the list
+Consumed value = 3
+Value 7 added to the list
+Value 8 added to the list
+Consumed value = 4
+Value 9 added to the list
+Consumed value = 5
+Consumed value = 6
+Consumed value = 7
+Consumed value = 8
+Consumed value = 9
